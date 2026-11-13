@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><title>Top Ball Knower</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>
+:root{--bg:#eef1f5;--card:#fff;--tx:#0f172a;--mu:#64748b;--ac:#1d4ed8;--hd:#0b1f44;--ok:#16a34a;--okb:#dcfce7;--hf:#d97706;--hfb:#fef3c7;--no:#94a3b8;--nob:#f1f5f9;--bd:#e2e8f0;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0b0e14;--card:#161b25;--tx:#f1f5f9;--mu:#94a3b8;--ac:#6b9bff;--hd:#0a1730;--okb:#12351f;--hfb:#3a2a0b;--nob:#1e2431;--bd:#252c3b}}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--tx);font-family:system-ui,-apple-system,"Segoe UI",sans-serif}
+header{background:linear-gradient(135deg,#0b1f44,#1d4ed8 60%,#f59e0b);color:#fff;padding:20px 16px 16px;text-align:center}
+header h1{margin:0;font-size:30px;font-weight:900;letter-spacing:-.5px;text-transform:uppercase;text-shadow:0 2px 0 rgba(0,0,0,.3)}header p{margin:4px 0 0;font-size:13px;opacity:.75}
+nav{display:flex;gap:4px;overflow-x:auto;padding:8px;background:var(--card);border-bottom:1px solid var(--bd);position:sticky;top:env(safe-area-inset-top,0px);z-index:5}
+nav button{flex:1 0 auto;white-space:nowrap;padding:9px 12px;border:0;background:none;color:var(--mu);font-weight:600;font-size:13px;border-radius:8px}
+nav button.on{background:var(--ac);color:#fff}
+main{max-width:720px;margin:0 auto;padding:14px}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:12px;overflow:hidden;margin-bottom:14px}
+.row{display:flex;align-items:center;gap:10px;padding:12px 14px;border-bottom:1px solid var(--bd)}.row:last-child{border:0}
+.rk{width:24px;font-weight:800;color:var(--mu);text-align:center}
+.r1 .rk{color:#d4a017}
+.nm{flex:1;min-width:0;font-weight:700}.sub{font-size:12px;color:var(--mu);font-weight:400}
+.pt{font-weight:800;font-variant-numeric:tabular-nums;font-size:18px;text-align:right}
+.seg{display:flex;height:7px;border-radius:4px;overflow:hidden;background:var(--bd);margin-top:6px}
+.seg i{display:block;height:100%}.sf{background:var(--ok)}.sh{background:var(--hf)}
+.badge{font-size:11px;padding:2px 8px;border-radius:99px;color:#fff;font-weight:700}
+.Full{background:var(--ok)}.Half{background:var(--hf)}.None{background:var(--no)}
+select{padding:9px;border-radius:8px;border:1px solid var(--bd);background:var(--card);color:var(--tx);font-size:15px;font-weight:600;max-width:100%}
+.stats{display:flex;gap:8px;margin-bottom:12px}
+.stat{flex:1;background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:10px;text-align:center}
+.stat b{display:block;font-size:20px}.stat span{font-size:11px;color:var(--mu)}
+.vs{display:flex;align-items:stretch;gap:8px;margin-bottom:12px}
+.vs>div{flex:1;background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:12px;text-align:center}
+.vs .big{font-size:30px;font-weight:800}.vs .w{outline:2px solid var(--ok)}
+.vs .at{align-self:center;color:var(--mu);font-weight:700}
+.mu{display:grid;grid-template-columns:1fr 84px 1fr;align-items:center;padding:9px 10px;border-bottom:1px solid var(--bd);font-size:13px;text-align:center}
+.mu:last-child{border:0}.mu .c{font-size:11px;color:var(--mu);font-weight:700}
+.mu .pk{border-radius:8px;padding:6px 4px;font-weight:600}
+.mu .pk small{display:block;font-weight:700;font-size:11px}
+.Fb{background:var(--okb)}.Hb{background:var(--hfb)}.Nb{background:var(--nob)}
+.t{overflow-x:auto;border:1px solid var(--bd);border-radius:12px;background:var(--card);margin-bottom:14px}
+table{border-collapse:separate;border-spacing:0;font-size:12px;width:100%}
+th,td{padding:7px 8px;white-space:nowrap;text-align:center;border-bottom:1px solid var(--bd)}
+th{background:var(--card);position:sticky;top:0;font-size:11px}
+td:first-child,th:first-child{position:sticky;left:0;background:var(--card);text-align:left;font-weight:700;z-index:2;border-right:1px solid var(--bd)}
+td.Fb,td.Hb,td.Nb{font-weight:600}
+.leg{font-size:12px;color:var(--mu);margin:0 2px 12px}
+.pk2{padding:12px 14px;border-bottom:1px solid var(--bd)}.pk2:last-child{border:0}
+.pk2 .top{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.pk2 .cat{font-size:12px;font-weight:700;color:var(--mu);text-transform:uppercase;letter-spacing:.04em}
+.pk2 .two{display:grid;grid-template-columns:1fr 1fr 58px;gap:8px}
+.pk2 .two>div{border-radius:10px;padding:8px 10px;background:var(--nob)}
+.pk2 .two>.Fb{background:var(--okb)}.pk2 .two>.Hb{background:var(--hfb)}
+.pk2 label{display:block;font-size:10px;font-weight:700;color:var(--mu);letter-spacing:.06em;margin-bottom:2px}
+.pk2 b{font-size:20px;line-height:1.15;word-break:break-word}
+.pk2 .got{text-align:center;padding:8px 4px}
+.ovl{position:fixed;inset:0;background:rgba(5,10,25,.78);z-index:20;display:flex;align-items:center;justify-content:center;padding:16px}
+.ovl .box{background:var(--card);border-radius:16px;padding:20px;width:100%;max-width:360px;max-height:92%;overflow:auto;text-align:center}
+.ovl h3{margin:0 0 4px;font-size:22px}.ovl p{margin:0 0 14px;color:var(--mu);font-size:14px}
+.ovl button{display:block;width:100%;padding:12px;margin-bottom:8px;border-radius:10px;border:1px solid var(--bd);background:var(--nob);color:var(--tx);font-size:17px;font-weight:700}
+.ovl a{display:inline-block;margin-top:4px;color:var(--mu);font-size:13px;text-decoration:underline;cursor:pointer}
+#me{margin-top:10px;background:rgba(255,255,255,.18);color:#fff;border:0;border-radius:99px;padding:6px 14px;font-size:13px;font-weight:600}
+h2{font-size:13px;text-transform:uppercase;letter-spacing:.05em;color:var(--mu);margin:4px 2px 8px}
+</style></head><body>
+<header><h1>🏆 Top Ball Knower 🏈</h1><p id="sub"></p><button id="me" onclick="ask()"></button></header>
+<nav id="nav"></nav>
+<main id="v"></main>
+<div id="ov"></div>
+<script>
+const D={"players": ["Lathan", "Clonch", "Joe", "Grant", "Garrett", "Owen", "Ryan", "J", "David"], "cats": [["NFC North", "Bears", 10], ["NFC South", "Panthers", 10], ["NFC East", "Giants", 10], ["NFC West", "49ers", 10], ["NFC Wildcard 1", "Lions", 7], ["NFC Wildcard 2", "Vikings", 7], ["NFC Wildcard 3", "Packers", 7], ["AFC North", "Steelers", 10], ["AFC South", "Jaguars", 10], ["AFC East", "Bills", 10], ["AFC West", "Broncos", 10], ["AFC Wildcard 1", "Chiefs", 7], ["AFC Wildcard 2", "Bengals", 7], ["AFC Wildcard 3", "Patriots", 7], ["Super Bowl Loser", null, 20], ["Super Bowl Winner", null, 25]], "picks": {"Lathan": [["Lions", "None"], ["Saints", "None"], ["Cowboys", "None"], ["Rams", "Half"], ["Seahawks", "Half"], ["49ers", "None"], ["Packers", "Full"], ["Bengals", "None"], ["Jaguars", "None"], ["Bills", "Full"], ["Chargers", "None"], ["Chiefs", "Full"], ["Ravens", "Half"], ["Patriots", "Full"], ["Chargers", "None"], ["Cowboys", "None"]], "Clonch": [["Lions", "Half"], ["Saints", "None"], ["Cowboys", "None"], ["Seahawks", "None"], ["Bears", "Half"], ["Eagles", "None"], ["Rams", "None"], ["Ravens", "None"], ["Texans", "Half"], ["Patriots", "Half"], ["Chargers", "Half"], ["Bills", "None"], ["Broncos", "None"], ["Jaguars", "Half"], ["Texans", "None"], ["Cowboys", "None"]], "Joe": [["Vikings", "Half"], ["Panthers", "Full"], ["Cowboys", "None"], ["Rams", "Half"], ["Bears", "None"], ["Eagles", "Half"], ["49ers", "None"], ["Bengals", "None"], ["Jaguars", "Full"], ["Bills", "Full"], ["Chargers", "Half"], ["Chiefs", "Full"], ["Broncos", "None"], ["Patriots", "Full"], ["Bills", "None"], ["Rams", "None"]], "Grant": [["Lions", "None"], ["Bucs", "None"], ["Cowboys", "None"], ["Rams", "Half"], ["Seahawks", "Half"], ["Eagles", "None"], ["49ers", "None"], ["Bengals", "None"], ["Texans", "None"], ["Bills", "Full"], ["Broncos", "Full"], ["Ravens", "None"], ["Patriots", "Half"], ["Chargers", "Half"], ["Bengals", "None"], ["Rams", "None"]], "Garrett": [["Bears", "Full"], ["Saints", "None"], ["Cowboys", "None"], ["Rams", "None"], ["Seahawks", "Half"], ["Lions", "None"], ["Eagles", "None"], ["Ravens", "None"], ["Jaguars", "Full"], ["Bills", "Full"], ["Chargers", "Half"], ["Colts", "None"], ["Patriots", "None"], ["Broncos", "Half"], ["Bills", "None"], ["Rams", "None"]], "Owen": [["Lions", "Half"], ["Bucs", "None"], ["Eagles", "None"], ["Rams", "None"], ["Bears", "Half"], ["Vikings", "Full"], ["Cowboys", "None"], ["Ravens", "Half"], ["Texans", "None"], ["Bills", "Full"], ["Broncos", "Full"], ["Chargers", "None"], ["Patriots", "None"], ["Steelers", "Half"], ["Bills", "None"], ["Rams", "None"]], "Ryan": [["Lions", "None"], ["Panthers", "Full"], ["Eagles", "None"], ["Rams", "None"], ["Packers", "Half"], ["Seahawks", "None"], ["Cowboys", "Half"], ["Ravens", "None"], ["Texans", "None"], ["Bills", "Full"], ["Broncos", "Full"], ["Bengals", "None"], ["Chargers", "Half"], ["Patriots", "Full"], ["Broncos", "None"], ["Rams", "None"]], "J": [["Bears", "Full"], ["Panthers", "Full"], ["Cowboys", "None"], ["Rams", "Half"], ["49ers", "None"], ["Seahawks", "None"], ["Eagles", "None"], ["Bengals", "None"], ["Texans", "None"], ["Bills", "Full"], ["Chargers", "Half"], ["Ravens", "Half"], ["Broncos", "Half"], ["Chiefs", "None"], ["Bills", "None"], ["Cowboys", "None"]], "David": [["Vikings", "Half"], ["Panthers", "Full"], ["Commanders", "None"], ["Rams", "None"], ["Bears", "None"], ["Eagles", "Half"], ["Bucs", "None"], ["Browns", "None"], ["Jaguars", "Full"], ["Bills", "Full"], ["Broncos", "Full"], ["Texans", "None"], ["Chargers", "None"], ["Patriots", "Full"], ["Rams", "None"], ["Bills", "None"]]}, "most": {"NFC North": "Lions", "NFC South": "Panthers", "NFC East": "Cowboys", "NFC West": "Rams", "NFC Wildcard 1": "Eagles", "NFC Wildcard 2": "Seahawks", "NFC Wildcard 3": "49ers/Bears", "AFC North": "Bengals/Ravens", "AFC South": "Texans", "AFC East": "Bills", "AFC West": "Chargers", "AFC Wildcard 1": "Patriots", "AFC Wildcard 2": "Chargers", "AFC Wildcard 3": "Broncos", "Super Bowl Loser": "Bills", "Super Bowl Winner": "Rams"}};
+const P=D.players,C=D.cats;
+const tabs=["Players","Standings","Matchup","Grid","Results"];
+const L={Players:"My Picks",Results:"NFL Standings",Matchup:"Who Knows Ball?"};
+let cur="Players",who=P[0],a=P[0],b=P[1];
+const f=r=>r=="Full"?1:r=="Half"?.5:0;
+const sc=p=>D.picks[p].reduce((s,x,i)=>s+C[i][2]*f(x[1]),0);
+const cnt=(p,r)=>D.picks[p].filter(x=>x[1]==r).length;
+const SB={W:null,L:null};
+const left=SB.W&&SB.L?0:45;
+const tot=C.reduce((s,c)=>s+c[2],0);
+const cls=r=>r=="Full"?"Fb":r=="Half"?"Hb":"Nb";
+const fmt=n=>Number.isInteger(n)?n:n.toFixed(1);
+const order=()=>[...P].sort((x,y)=>sc(y)-sc(x));
+document.getElementById("sub").textContent="Who really knows ball? "+left+" pts still up for grabs in the Super Bowl";
+function go(t,p){cur=t;if(p)who=p;draw();scrollTo(0,0)}
+function sel(id,val,fn){return `<select onchange="${fn}(this.value)">${P.map(n=>`<option ${n==val?"selected":""}>${n}</option>`).join("")}</select>`}
+function draw(){
+document.getElementById("nav").innerHTML=tabs.map(t=>`<button class="${t==cur?"on":""}" onclick="go('${t}')">${L[t]||t}</button>`).join("");
+const v=document.getElementById("v");
+if(cur=="Standings"){const o=order(),top=sc(o[0]);
+v.innerHTML=`<div class="card">${o.map((p,i)=>{const s=sc(p),full=D.picks[p].reduce((x,y,k)=>x+(y[1]=="Full")*C[k][2],0);
+return `<div class="row r${i+1}" onclick="go('Players','${p}')" style="cursor:pointer"><div class="rk">${i+1}</div><div class="nm">${p}${i==0?" 👑":""}<div class="sub">${cnt(p,"Full")} full · ${cnt(p,"Half")} half · ${i?fmt(top-s)+" back":"leader"} · max ${fmt(s+left)}</div><div class="seg"><i class="sf" style="width:${full/tot*100}%"></i><i class="sh" style="width:${(s-full)/tot*100}%"></i></div></div><div class="pt">${fmt(s)}</div></div>`}).join("")}</div>
+<p class="leg"><span style="color:var(--ok)">■</span> full-credit points &nbsp;<span style="color:var(--hf)">■</span> half-credit points &nbsp;· Tap a name for their picks</p>`}
+else if(cur=="Matchup"){const sa=sc(a),sb=sc(b);
+v.innerHTML=`<div style="display:flex;gap:8px;margin-bottom:12px">${sel("a",a,"setA")}${sel("b",b,"setB")}</div>
+<div class="vs"><div class="${sa>sb?"w":""}"><div class="sub">${a}</div><div class="big">${fmt(sa)}</div></div><div class="at">vs</div><div class="${sb>sa?"w":""}"><div class="sub">${b}</div><div class="big">${fmt(sb)}</div></div></div>
+<div class="card">${C.map((c,i)=>{const x=D.picks[a][i],y=D.picks[b][i];
+const bx=z=>`<div class="pk ${cls(z[1])}">${z[0]||"—"}<small>${c[1]?fmt(c[2]*f(z[1]))+" pts":"pending"}</small></div>`;
+return `<div class="mu">${bx(x)}<div class="c">${c[0]}</div>${bx(y)}</div>`}).join("")}</div>`}
+else if(cur=="Grid"){const o=order();
+v.innerHTML=`<div class="t"><table><tr><th>Category</th>${o.map(p=>`<th>${p}</th>`).join("")}<th>Result</th></tr>${C.map((c,i)=>`<tr><td>${c[0]}<br><span class="sub">${c[2]} pts</span></td>${o.map(p=>{const x=D.picks[p][i];return `<td class="${cls(x[1])}">${x[0]}</td>`}).join("")}<td><b>${c[1]||"TBD"}</b></td></tr>`).join("")}<tr><td>Total</td>${o.map(p=>`<td><b>${fmt(sc(p))}</b></td>`).join("")}<td></td></tr></table></div>
+<p class="leg"><span style="color:var(--ok)">■</span> full · <span style="color:var(--hf)">■</span> half · <span style="color:var(--no)">■</span> none. Swipe sideways to see everyone.</p>`}
+else if(cur=="Players"){const p=who,s=sc(p),rk=order().indexOf(p)+1;
+v.innerHTML=`<p>${sel("w",p,"setW")}</p><div class="stats"><div class="stat"><b>${fmt(s)}</b><span>points</span></div><div class="stat"><b>#${rk}</b><span>rank</span></div><div class="stat"><b>${cnt(p,"Full")}</b><span>full</span></div><div class="stat"><b>${cnt(p,"Half")}</b><span>half</span></div></div>
+<div class="card">${D.picks[p].map((x,i)=>`<div class="pk2"><div class="top"><span class="cat">${C[i][0]} · ${C[i][2]} pts</span><span class="badge ${x[1]}">${x[1]}</span></div><div class="two"><div><label>RESULT</label><b>${C[i][1]||"TBD"}</b></div><div class="${cls(x[1])}"><label>MY PICK</label><b>${x[0]||"—"}</b></div><div class="got"><label>EARNED</label><b>${fmt(C[i][2]*f(x[1]))}</b></div></div></div>`).join("")}</div>`}
+else if(cur=="Results"){v.innerHTML=ns()}
+else{v.innerHTML=`<h2>Season results & most-picked teams</h2><div class="card">${C.map(c=>`<div class="row"><div class="nm">${c[0]}<div class="sub">Most picked: ${D.most[c[0]]}</div></div><div style="text-align:right"><div style="font-weight:800">${c[1]||"TBD"}</div><div class="sub">${c[2]} pts</div></div></div>`).join("")}</div>`}}
+const S={NFC:[["San Francisco 49ers",7,1],["Chicago Bears",7,2],["New York Giants",5,2],["Carolina Panthers",3,5],["Detroit Lions",6,2],["Minnesota Vikings",6,2],["Green Bay Packers",6,3],["Seattle Seahawks",5,4],["Los Angeles Rams",5,4],["Dallas Cowboys",4,5],["New Orleans Saints",3,5],["Tampa Bay Buccaneers",3,6],["Atlanta Falcons",3,6],["Arizona Cardinals",3,6],["Washington Commanders",2,5],["Philadelphia Eagles",2,7]],AFC:[["Buffalo Bills",7,1],["Denver Broncos",7,2],["Jacksonville Jaguars",6,2],["Pittsburgh Steelers",6,2],["Kansas City Chiefs",6,2],["Cincinnati Bengals",6,2],["New England Patriots",5,4],["Cleveland Browns",5,4],["Las Vegas Raiders",4,5],["Baltimore Ravens",4,5],["Houston Texans",3,5],["New York Jets",2,7],["Indianapolis Colts",2,7],["Miami Dolphins",1,7],["Tennessee Titans",1,7],["Los Angeles Chargers",0,8]]};
+function ns(){const R=(t,i)=>`<div class="row" style="${i==6?'border-bottom:2px dashed var(--mu);':''}${i>6?'opacity:.6':''}"><div class="rk">${i+1}</div><div class="nm">${t[0]}<div class="sub">${i<4?'Division leader':i<7?'Wildcard':'Out right now'}</div></div><div class="pt" style="font-size:16px">${t[1]}-${t[2]}</div></div>`;
+return `<h2>Current playoff picture</h2><p class="leg">Snapshot as of Nov 12, 2026 · top 7 in each conference make the playoffs</p>`+Object.keys(S).map(k=>`<h2>${k}</h2><div class="card">${S[k].map(R).join("")}</div>`).join("")}
+const DW={NFC:{N:"Chicago Bears",S:"Carolina Panthers",E:"New York Giants",W:"San Francisco 49ers"},AFC:{N:"Pittsburgh Steelers",S:"Jacksonville Jaguars",E:"Buffalo Bills",W:"Denver Broncos"}};
+const alias={bucs:"buccaneers",cheifs:"chiefs"};
+function team(n){n=n.trim().toLowerCase();n=alias[n]||n;for(const k in S)for(const t of S[k])if(t[0].toLowerCase().endsWith(" "+n))return{t:t[0],c:k};return null}
+function grade(pick,i){if(i>13){if(!SB.W||!SB.L)return"None";const tm=team(pick);if(!tm)return"None";const want=i==15?SB.W:SB.L,other=i==15?SB.L:SB.W;return tm.t==want?"Full":tm.t==other?"Half":"None"}const conf=i<7?"NFC":"AFC",j=i%7,tm=team(pick);if(!tm||tm.c!=conf)return"None";const wc=S[conf].slice(4,7).map(x=>x[0]);
+if(j<4)return tm.t==DW[conf]["NSEW"[j]]?"Full":wc.includes(tm.t)?"Half":"None";
+return wc.includes(tm.t)?"Full":Object.values(DW[conf]).includes(tm.t)?"Half":"None"}
+P.forEach(p=>D.picks[p].forEach((x,k)=>{x[1]=grade(x[0],k);const m=team(x[0]);if(m)x[0]=m.t.split(" ").pop()}));
+C.forEach((c,i)=>{if(i<14){const conf=i<7?"NFC":"AFC",j=i%7;c[1]=(j<4?DW[conf]["NSEW"[j]]:S[conf][j][0]).split(" ").pop()}});
+C[14][1]=SB.L?SB.L.split(" ").pop():null;C[15][1]=SB.W?SB.W.split(" ").pop():null;
+const setA=x=>{a=x;draw()},setB=x=>{b=x;draw()},setW=x=>{who=x;draw()};
+let mine=null;try{mine=localStorage.getItem("tbk-player")}catch(e){}
+if(!P.includes(mine))mine=null;
+function setMe(n){mine=n;who=n;a=n;b=P.find(x=>x!=n)}
+function showMe(){document.getElementById("me").textContent=mine?"👤 "+mine+" · switch player":"👤 Pick your player"}
+function pickMe(n){setMe(n);try{localStorage.setItem("tbk-player",n)}catch(e){}skipAsk();showMe();draw()}
+function skipAsk(){document.getElementById("ov").innerHTML=""}
+function ask(){document.getElementById("ov").innerHTML=`<div class="ovl"><div class="box"><h3>Who are you? 🏈</h3><p>Pick your name to see your picks.</p>${P.map(n=>`<button onclick="pickMe('${n}')">${n}</button>`).join("")}<a onclick="skipAsk()">Just looking</a></div></div>`}
+if(mine)setMe(mine);
+showMe();if(!mine)ask();
+draw();
+</script></body></html>
